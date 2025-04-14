@@ -44,25 +44,39 @@ def create_book():
 @main.route('/create_author', methods=['GET', 'POST'])
 def create_author():
     # TODO: Make an AuthorForm instance
-
+    form = AuthorForm()
     # TODO: If the form was submitted and is valid, create a new Author object
     # and save to the database, then flash a success message to the user and
     # redirect to the homepage
-
+    if form.validate_on_submit():
+        new_author = Author(
+            name=form.name.data,
+            biography=form.biography.data
+        )
+        db.session.add(new_author)
+        db.session.commit()
     # TODO: Send the form object to the template, and use it to render the form
-    # fields
+        flash('New author was created successfully.')
+        return redirect(url_for('main.homepage'))
+
     return render_template('create_author.html')
 
 @main.route('/create_genre', methods=['GET', 'POST'])
 def create_genre():
     # TODO: Make a GenreForm instance
-
+    form = GenreForm()
     # TODO: If the form was submitted and is valid, create a new Genre object
     # and save to the database, then flash a success message to the user and
     # redirect to the homepage
-
+    if form.validate_on_submit():
+        new_genre = Genre(
+            name=form.name.data
+        )
+        db.session.add(new_genre)
+        db.session.commit()
     # TODO: Send the form object to the template, and use it to render the form
-    # fields
+        flash('New genre was created successfully.')
+        return redirect(url_for('main.homepage'))
     return render_template('create_genre.html')
 
 @main.route('/create_user', methods=['GET', 'POST'])
@@ -76,8 +90,12 @@ def book_detail(book_id):
     form = BookForm(obj=book)
 
     # TODO: If the form was submitted and is valid, update the fields in the 
-    # Book object and save to the database, then flash a success message to the 
-    # user and redirect to the book detail page
+    if form.validate_on_submit():
+        form.populate_obj(book)
+        db.session.commit()
+
+        flash('Book was updated successfully.')
+        return redirect(url_for('main.book_detail', book_id=book.id))
 
     return render_template('book_detail.html', book=book, form=form)
 
