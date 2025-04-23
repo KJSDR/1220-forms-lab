@@ -59,7 +59,7 @@ def create_author():
         flash('New author was created successfully.')
         return redirect(url_for('main.homepage'))
 
-    return render_template('create_author.html')
+    return render_template('create_author.html', form=form)
 
 @main.route('/create_genre', methods=['GET', 'POST'])
 def create_genre():
@@ -77,7 +77,7 @@ def create_genre():
     # TODO: Send the form object to the template, and use it to render the form
         flash('New genre was created successfully.')
         return redirect(url_for('main.homepage'))
-    return render_template('create_genre.html')
+    return render_template('create_genre.html', form=form)
 
 @main.route('/create_user', methods=['GET', 'POST'])
 def create_user():
