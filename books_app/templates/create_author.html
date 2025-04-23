@@ -2,8 +2,36 @@
 
 {% block content %}
 
-<p>Author creation form.</p>
+<h1>Create a New Author</h1>
 
-<!-- TODO: Add a <form> element here and use the form variable to show the labels & fields -->
+<form method="POST">
+    {{ form.csrf_token }}
+    
+    <fieldset>
+        <legend>Enter Author Information</legend>
+        
+        <p>
+            {{ form.name.label }}
+            {{ form.name }}
+            {% if form.name.errors %}
+                {% for error in form.name.errors %}
+                    <span class="error">{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+        </p>
+        
+        <p>
+            {{ form.biography.label }}
+            {{ form.biography }}
+            {% if form.biography.errors %}
+                {% for error in form.biography.errors %}
+                    <span class="error">{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+        </p>
+        
+        {{ form.submit }}
+    </fieldset>
+</form>
 
 {% endblock %}
